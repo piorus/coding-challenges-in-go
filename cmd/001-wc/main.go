@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -15,16 +14,13 @@ func check(e error) {
 }
 
 func main() {
-	if len(os.Args) != 2 {
-		log.Fatalln("filename is missing")
-	}
-
-	f, err := os.Open(os.Args[1])
-	check(err)
-	defer f.Close()
-
 	linesPtr := flag.Bool("l", false, "count lines")
 	bytesPtr := flag.Bool("c", false, "count bytes")
+	flag.Parse()
+
+	f, err := os.Open(flag.Args()[0])
+	check(err)
+	defer f.Close()
 
 	if *linesPtr {
 		scanner := bufio.NewScanner(f)
