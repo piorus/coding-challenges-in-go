@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -16,7 +17,18 @@ func main() {
 	if len(os.Args) != 2 {
 		log.Fatalln("filename is missing")
 	}
-	
 
-	fmt.Println(os.Args)
+	f, err := os.Open(os.Args[1])
+	check(err)
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	i := 0
+
+	for scanner.Scan() {
+		i = i + 1
+	}
+
+	fmt.Println(i, os.Args[1])
 }
